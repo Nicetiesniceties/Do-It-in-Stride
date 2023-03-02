@@ -1,5 +1,4 @@
 import cv2
-import time
 import os
 import pandas as pd
 
@@ -10,7 +9,12 @@ def parse_filename(filename):
 
 def write_gesture_data_to_csv(timestamp_data):
     df = pd.DataFrame(timestamp_data)
-    df.to_csv(str(userid) + "_gesture_stride_timestamp_" + name, mode='a', index = False)
+    if not os.path.isfile(str(userid) + "_gesture_stride_timestamp_" + name + ".csv"):
+        df.to_csv(str(userid) + "_gesture_stride_timestamp_" + name + ".csv", index = False)
+        print("new file!")
+    else:
+        df.to_csv(str(userid) + "_gesture_stride_timestamp_" + name + ".csv", mode = "a", index = False, header = False)
+        print("append to file!")
 
 def remove_duplicate(gesture_data):
     i = 0
@@ -42,7 +46,7 @@ def record_gesture_timestamp(df, gesture_info, first_or_second, timestamp):
     return df
 
 
-
+# input label target
 name = input("Name (CY/DK/RY):")
 if name not in ["CY", "DK", "RY"]:
     print("Invalid name, please try again!")
@@ -79,6 +83,8 @@ df = pd.DataFrame(columns=["gesture", "foot", "direction", "camera", "first/seco
 i = 0
 while i < len(video_list):
     if(i < 0): i = 0
+
+    # handle video meata data
     cap = cv2.VideoCapture(os.path.join(userdirpath, video_list[i][0]))
     video_fps = cap.get(cv2.CAP_PROP_FPS)
     # print(video_fps)
@@ -86,39 +92,64 @@ while i < len(video_list):
     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     fourcc = cv2.VideoWriter_fourcc(*'avc1')
     print("video #" + str(i), video_list[i][2], video_list[i][1], video_list[i][3], video_list[i][4], video_list[i][5].strip("Recording"))
-    print(video_list[i][0])
+    #print(video_list[i][0])
+    speed = int(20)
+
     while True:
         ret, frame = cap.read()
         if not ret:
             #print("frame initalization fail")
             break
+
         # rotate frame by 90 degree
         frame = cv2.rotate(frame, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
         # put text on frame
         cv2.putText(frame, video_list[i][3], (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
         cv2.putText(frame, video_list[i][4], (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        cv2.putText(frame, str(20 / speed) + "X speed", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
         cv2.imshow('frame', frame)
-        key = cv2.waitKey(int(20)) & 0xFF
-        # check for 'q' key-press
+
+        
+        key = cv2.waitKey(speed) & 0xFF
+        # check for key-press
+
         if key == ord("d"):
             #skip video
             break
+
         if key == ord("a"):
             #previous video
             i -= 2
             break
+
+        if key == ord("w"):
+            #speed up video
+            speed /= 2 
+            speed = int(speed)
+            if speed <= 0:
+                speed = 1
+
+        if key == ord("s"):
+            #slow down video
+            speed *= 2 
+            speed = int(speed)
+        
         if key == ord("r"):
             #replay video
             i -= 1
             break
+
         if key == ord("q"):
             #if 'q' key-pressed save progress and quit
             print(df)
             write_gesture_data_to_csv(df);
             quit();
+        
         if key == 32: 
             # spacebar for pause
             cv2.waitKey(-1)
+
         if key == ord("f"):
             #record first gesture
             #print("time at: ", int(cap.get(cv2.CAP_PROP_POS_MSEC)));
@@ -129,7 +160,8 @@ while i < len(video_list):
             #print("time at: ", int(cap.get(cv2.CAP_PROP_POS_MSEC)));
             df = record_gesture_timestamp(df, video_list[i], "second", cap.get(cv2.CAP_PROP_POS_MSEC))
     i += 1
-        
+
+ 
 
 
 # for i in video_list:
