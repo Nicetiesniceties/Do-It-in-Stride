@@ -54,7 +54,7 @@ if name not in ["CY", "DK", "RY"]:
 userid = input("UserID:")
 
 # change this to your own directory
-dirpath = "./VideoRecord"
+dirpath = "D:\Do it in Stride\VideoRecord"
 
 
 # read the video list and remove the duplicate
