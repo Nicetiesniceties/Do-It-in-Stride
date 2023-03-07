@@ -69,6 +69,7 @@ else:
                 video_list.append([file] + parse_filename(file))
                 #print(video_list[-1])
 #print(video_list[0:5][0])
+video_list.sort(key = lambda x: x[0], reverse = False)
 video_list = remove_duplicate(video_list)
 print("video_list length: ", len(video_list), "this should be 180")
 #print(video_list[0:5][0])
