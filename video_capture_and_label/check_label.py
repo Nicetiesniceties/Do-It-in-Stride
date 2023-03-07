@@ -23,16 +23,19 @@ label_list = pd.read_csv(str(userid) + "_gesture_stride_timestamp_" + name + ".c
 
 # remove duplicate by keeping the last one
 label_list = label_list.drop_duplicates(subset=["gesture", "foot", "direction", "camera", "first/second"], keep="last")
+#print(label_list, len(label_list))
 
 # checking unlabelled video
 # check if a video element exist in the df 
 perfect_label = True
 for i in gesture_list:
-    for j in ["Left", "Right"]:
-        for k in ["forth", "back"]:
+    for j in ["leftfoot", "rightfoot"]:
+        for k in ["RecordingForth", "RecordingBack"]:
             for m in ["first", "second"]:
                 if not label_list.loc[(label_list["gesture"] == i) & (label_list["foot"] == j) & (label_list["direction"] == k) & (label_list["first/second"] == m)].empty:
                     #print("Labelled: ", i, j, k, m)
+                    continue
+                elif i == 'NormalWalking':
                     continue
                 else:
                     print("Unlabelled: ", i, j, k, m)
