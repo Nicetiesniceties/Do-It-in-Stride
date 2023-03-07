@@ -54,7 +54,7 @@ if name not in ["CY", "DK", "RY"]:
 userid = input("UserID:")
 
 # change this to your own directory
-dirpath = "D:\Do it in Stride\VideoRecord"
+dirpath = "./VideoRecord"
 
 
 # read the video list and remove the duplicate
@@ -161,48 +161,4 @@ while i < len(video_list):
             #print("time at: ", int(cap.get(cv2.CAP_PROP_POS_MSEC)));
             df = record_gesture_timestamp(df, video_list[i], "second", cap.get(cv2.CAP_PROP_POS_MSEC))
     i += 1
-
- 
-
-
-# for i in video_list:
-#     print(i[-1])
-
-
-'''
-# read in video from webcam devices
-cap1 = cv2.VideoCapture(3)
-
-
-# Get video metadata
-video_fps1 = cap1.get(cv2.CAP_PROP_FPS),
-height1 = cap1.get(cv2.CAP_PROP_FRAME_HEIGHT)
-width1 = cap1.get(cv2.CAP_PROP_FRAME_WIDTH)
-
-
-#create media data folder and setting user id
-
-print ("is waiting")
-def recording_video():
-    global recording_status
-    print("starting recording ...")
-    while True:
-        # read device frame
-        ret1, frame1 = cap1.read()
-
-        if not ret1: 
-            print("frame1 initalization fail")
-            break # break if not receiving from device
-
-        cv2.imshow('frame1',frame1)
-
-        key = cv2.waitKey(1) & 0xFF
-        # check for 'q' key-press
-        if key == ord("q"):
-            #if 'q' key-pressed break out
-            break
-
-    return
-
-recording_video()
-'''
+write_gesture_data_to_csv(df)
