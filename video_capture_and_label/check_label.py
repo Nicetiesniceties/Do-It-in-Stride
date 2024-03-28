@@ -28,6 +28,7 @@ label_list = label_list.drop_duplicates(subset=["gesture", "foot", "direction", 
 # checking unlabelled video
 # check if a video element exist in the df 
 perfect_label = True
+unlabelled_n =0
 for i in gesture_list:
     for j in ["leftfoot", "rightfoot"]:
         for k in ["RecordingForth", "RecordingBack"]:
@@ -40,9 +41,12 @@ for i in gesture_list:
                 else:
                     print("Unlabelled: ", i, j, k, m)
                     perfect_label = False
+                    unlabelled_n += 1
 
 if perfect_label:
     print("Perfectly Label with no missing data!")
+else:
+    print("Unfinished. # of unlabelled gestures:", str(unlabelled_n / 8), "labelled:", str(22 - unlabelled_n / 8))
 
 # save the updated label list
 label_list.to_csv(str(userid) + "_gesture_stride_timestamp_" + name + ".csv", index = False)

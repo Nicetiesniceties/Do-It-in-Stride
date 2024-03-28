@@ -54,11 +54,12 @@ if name not in ["CY", "DK", "RY"]:
 userid = input("UserID:")
 
 # change this to your own directory
-dirpath = "D:\Do it in Stride\VideoRecord"
+dirpath = "..\VideoRecord\VideoRecord"
 
 
 # read the video list and remove the duplicate
 userdirpath = os.path.join(dirpath, userid)
+print(userdirpath)
 video_list = []
 if(not os.path.exists(userdirpath)):
     print("Data not exist!")
@@ -73,7 +74,20 @@ video_list.sort(key = lambda x: x[0], reverse = False)
 video_list = remove_duplicate(video_list)
 print("video_list length: ", len(video_list), "this should be 180")
 #print(video_list[0:5][0])
+
+# preserve targe gestures
 video_list.sort(key = lambda x: int(x[-1]), reverse = True)
+non_target_list = []
+for i in range(len(video_list)):
+    targets = ["BigStep", "Delay", "TapWithHeel", "KickForward", "BendingBehind"]
+    if any(x in video_list[i] for x in targets):
+        continue
+    else:
+        non_target_list.append(video_list[i])
+for i in non_target_list:
+    video_list.remove(i)
+print("video_list length: ", len(video_list), "this should be 20")
+
 #print(video_list[0:5][0])
 #cam1-p3-BendingBehind-leftfoot-RecordingBack-1676407703513.mp4
 
