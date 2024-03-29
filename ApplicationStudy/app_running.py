@@ -36,7 +36,7 @@ while True:
         #client_socket.send(("Message received at " + str(time.ctime(time.time()))).encode())
         print('You Pressed A Key!')
     button = keyboard.read_key()
-    if button == "F":
+    if button == "f":
         client_socket.send("Click".encode())
     elif button == "w":
         client_socket.send("Normal Walking".encode())
@@ -48,6 +48,8 @@ while True:
         client_socket.send("ToeTapBehind".encode())
     elif button == "x":
         client_socket.send("Delay".encode())
+    elif button == " ":
+        client_socket.send("LiftInFront".encode())
     elif button == "p":
         client_socket.send("Stop!")
     elif button == "d":
