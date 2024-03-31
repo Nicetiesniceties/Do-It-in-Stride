@@ -38,34 +38,62 @@ while True:
     button = keyboard.read_key()
     if button == "f":
         client_socket.send("Click".encode())
+        print(button)
+        print(time.time())
     elif button == "w":
         client_socket.send("Normal Walking".encode())
+        print(button)
+        print(time.time())
     elif button == "r":
         client_socket.send("BendingBehind".encode())
+        print(button)
+        print(time.time())
     elif button == "j":
         client_socket.send("Big Step".encode())
+        print(button)
+        print(time.time())
     elif button == "s":
         client_socket.send("ToeTapBehind".encode())
+        print(button)
+        print(time.time())
     elif button == "x":
         client_socket.send("Delay".encode())
+        print(button)
+        print(time.time())
     elif button == " ":
         client_socket.send("LiftInFront".encode())
+        print(button)
+        print(time.time())
     elif button == "p":
         client_socket.send("Stop!")
     elif button == "d":
         client_socket.send("RightBigStep".encode())
+        print(button)
+        print(time.time())
     elif button == "a":
         client_socket.send("LeftBigStep".encode())
+        print(button)
+        print(time.time())
     elif button == "c":
         client_socket.send("RightHeelTap".encode())
+        print(button)
+        print(time.time())
     elif button == "z":
         client_socket.send("LeftHeelTap".encode())
+        print(button)
+        print(time.time())
     elif button == "e":
         client_socket.send("RightClick".encode())
+        print(button)
+        print(time.time())
     elif button == "q":
         client_socket.send("LeftClick".encode())
+        print(button)
+        print(time.time())
     elif button == "b":
         client_socket.send("Call".encode())
+        print(button)
+        print(time.time())
     time.sleep(0.2)
     
  
